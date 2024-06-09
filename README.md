@@ -16,7 +16,7 @@ To install the Phishing Website Analyzer, follow these steps:
 
 ## Usage
 To use the Phishing Website Analyzer, follow these steps:
-1. Run the analyzer: `app.py`
+1. Run the analyzer: `python app.py`
 2. Enter the URL you want to analyze.
 3. View the analysis results.
 
