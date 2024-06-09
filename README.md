@@ -10,7 +10,7 @@ The Phishing Website Analyzer is a tool for analyzing URLs to detect phishing in
 
 ## Installation
 To install the Phishing Website Analyzer, follow these steps:
-1. Clone the repository: `git clone https://github.com/yourusername/phishing-website-analyzer.git`
+1. Clone the repository: `git clone https://github.com/MaazPasha/phishing-analyser.git`
 2. Install dependencies: `pip install Flask`, `pip install requests`, `pip install Beautifulsoup`
 
 
