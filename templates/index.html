@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Phishing Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFACD;
+        }
+        h1 {
+            color: #124685;
+            font-weight: bold;
+        }
+        h2 {
+            color: rgb(136, 86, 24);
+        }
+        p {
+            color: rgb(13, 1, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Phishing Analyzer</h1>
+        <h2 class="mt-4"><u>Description about this respective project:</u></h2>
+        <p class="mt-3">The phishing website analyzer is a Python script implemented as a simple web application using Flask. Its purpose is to assess the legitimacy of a given website by analyzing its HTML content for potential phishing indicators. The script employs various checks, including the detection of automatic redirection, inspection of suspicious links, and identification of common phishing keywords within the HTML content. Users interact with the analyzer through a basic web interface, entering a URL to receive an analysis result. While the current implementation provides a foundational phishing detection mechanism, it is essential to note that the script serves educational purposes and may not comprehensively cover all sophisticated phishing techniques encountered in real-world scenarios. Users can extend and customize the analyzer by incorporating additional checks tailored to specific phishing patterns or indicators.</p>
+        
+        <div class="text-center mt-5">
+            <img src="https://www.mdpi.com/make/make-03-00034/article_deploy/html/images/make-03-00034-g001.png" alt="image" class="img-fluid" style="max-width: 100%; height: auto;"/>
+        </div>
+        
+        <form action="/check" method="post" class="mt-5">
+            <div class="form-group">
+                <label for="url">Enter URL:</label>
+                <input type="url" id="url" name="url" class="form-control" required placeholder="Enter the URL">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

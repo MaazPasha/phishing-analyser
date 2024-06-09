@@ -1,0 +1,97 @@
+from bs4 import BeautifulSoup
+import requests
+from urllib.parse import urlparse
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+# Define your trusted domain
+trusted_domain = 'example.com'
+
+def get_html_content(url):
+try:
+headers = {
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+response = requests.get(url, headers=headers, timeout=5, allow_redirects=True)
+response.raise_for_status()
+return response.text
+
+except requests.exceptions.HTTPError as errh:
+print(f"HTTP Error: {errh}")
+except requests.exceptions.Timeout as errt:
+print(f"Timeout Error: {errt}")
+except requests.exceptions.RequestException as err:
+print(f"Error fetching URL: {err}")
+except Exception as e:
+print(f"An unexpected error occurred: {e}")
+
+return None
+
+def analyze_phishing(html_content, url):
+# Check if HTML content is available
+if not html_content:
+return "Error: Unable to fetch HTML content"
+
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Check for common phishing indicators in meta tags
+meta_tags = soup.find_all('meta', {'http-equiv': 'refresh'})
+if meta_tags:
+return "Phishing: Page uses automatic redirection"
+
+# Check for suspicious links using a more robust method
+suspicious_links = soup.find_all('a', href=True)
+for link in suspicious_links:
+href = link['href']
+parsed_url = urlparse(href)
+if parsed_url.scheme and parsed_url.netloc and not is_trusted_domain(parsed_url.netloc):
+return "Phishing: Contains suspicious links"
+
+# Check for phishing keywords in the HTML content
+phishing_keywords = ['login', 'password', 'account', 'verify']
+if any(keyword in html_content.lower() for keyword in phishing_keywords):
+return "Phishing: Contains phishing keywords"
+
+# Additional conditions for phishing detection
+if "confirm" in html_content.lower() and "identity" in html_content.lower():
+return "Phishing: May be attempting to confirm identity"
+
+# You can add more checks based on your requirements
+
+# If none of the phishing indicators are found, consider it legitimate
+return "Legitimate: No phishing indicators found"
+
+def is_trusted_domain(netloc):
+# Add your own logic to whitelist trusted domains
+return netloc == trusted_domain
+
+# Example usage in a simple Flask web application
+@app.route('/')
+def index():
+return render_template('index.html')
+
+@app.route('/check', methods=['POST'])
+def check_phishing():
+url = request.form.get('url')
+
+# Basic URL validation
+if not url:
+return render_template('error.html', error="Error: URL is required")
+
+html_content = get_html_content(url)
+
+if not html_content:
+return render_template('error.html', error="Error: Unable to fetch HTML content")
+
+result = analyze_phishing(html_content, url)
+return render_template('result.html', url=url, result=result)
+
+@app.route('/error')
+def error():
+error_message = "An unexpected error occurred."
+return render_template('error_page.html', error=error_message)
+
+if __name__ == '__main__':
+# Disable debug mode in production
+app.run(debug=True)
